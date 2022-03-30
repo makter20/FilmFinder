@@ -15,7 +15,7 @@ apt-get update \
  && apt-get install -y mongodb-org \
  && apt-get clean
 mkdir /tmp/copied/
-cp Files-to-copy/* /tmp/copied/
+cp kimdocker/Files-to-copy/* /tmp/copied/
 tr -d '\015' < /tmp/copied/service-script-mongod > /etc/init.d/mongod \
  && tr -d '\015' < /tmp/copied/mongod.conf > /etc/mongod.conf \
  && rm -fr /tmp/copied \
