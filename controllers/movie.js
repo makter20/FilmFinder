@@ -1,13 +1,8 @@
 const movieRouter = require("express").Router()
 const Movie = require("../models/Movie")
 
-movieRouter.get("/", (req, res) => {
-    Movie.find({}).then((users) => {
-        res.json(users)
-    })
-})
-
-movieRouter.get("/:movieId", (req, res, next) => {
+//get
+movieRouter.get("/movieId/:movieId", (req, res, next) => {
     id = req.params.movieId
     Movie.findOne({movieId: id}, function (error, docs) {
         if (error) {
@@ -21,12 +16,12 @@ movieRouter.get("/:movieId", (req, res, next) => {
     })
 })
 
+//create
 movieRouter.post("/", (req, res, next) => {
 
     newMovie = new Movie({
         movieId: req.body.movieId,
         title: req.body.title,
-        date: new Date(req.body.date),
         genres: req.body.genres
     })
 
@@ -43,8 +38,43 @@ movieRouter.post("/", (req, res, next) => {
 
 })
 
+//update
+movieRouter.put("/movieId/:movieId", (req, res, next) => {
+    id = req.params.movieId
+    
+    const updatedMovie = {
+        movieId: req.body.movieId,
+        title: req.body.title,
+        genres: req.body.genres
+    }  
 
+    Movie.updateOne({movieId: id}, updatedMovie)
+        .then((result) => {
+            res.json(result)
+        })
+        .catch((error) => {
+            next(error)
+        })
 
-//delete and update
+})
+
+//delete
+movieRouter.delete("/movieId/:movieId", (req, res, next) => {
+    id = req.params.movieId
+    Movie.deleteOne({movieId: id})
+        .then((result) => {
+            res.json(result)
+        })
+        .catch((err) => {
+            next(error)
+        })
+})
+
+//get all
+movieRouter.get("/", (req, res) => {
+    Movie.find({}).then((users) => {
+        res.json(users)
+    })
+})
 
 module.exports = movieRouter
