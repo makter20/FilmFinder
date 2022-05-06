@@ -1,16 +1,14 @@
-import pymongo
 from pymongo import MongoClient
 
 #userId,movieId,rating,timestamp
 #1,307,3.5,1256677221
 
-def getRating(db, movieId, startTime, endTime):
+def getRating(db, movieId, startTime, endTime, limitValue):
     collection = db.ratings
     query = {"movieId": movieId, "timestamp": {"$gte": startTime, "$lte": endTime}}
     projection = {"_id": 0}
-    cursor = collection.find(query, projection)
-    for record in cursor:
-        print(record)
+    cursor = collection.find(query, projection).limit(limitValue)
+    return cursor
 
 def delRating(db, userId, movieId):
     collection = db.ratings
@@ -35,20 +33,23 @@ def putRating(db, userId, movieId, rating, timestamp):
             "timestamp": timestamp}
         collection.insert_one(newValues)
     
-def main():
-    try:
-        conn = MongoClient("mongodb+srv://admin:rootpassword@cluster0.xl0um.mongodb.net/moviesDB?retryWrites=true&w=majority")
-        print("Mongo db Connected successfully!!!")
-    except:
-        print("Could not connect to MongoDB")
+# testing
+# def main():
+#     try:
+#         conn = MongoClient("mongodb+srv://admin:rootpassword@cluster0.xl0um.mongodb.net/moviesDB?retryWrites=true&w=majority")
+#         print("Mongo db Connected successfully!!!")
+#     except:
+#         print("Could not connect to MongoDB")
     
-    db = conn.moviesDB
-    putRating(db, 1, 2, "good", 18932)
-    putRating(db, 1, 2, "good enough", 18932)
-    putRating(db, 2, 2, "fantastic", 18932)
-    putRating(db, 1, 3, "great", 18934)
-    getRating(db, 2, 18930, 18934)
-    # delRating(db, 1, 2)
+#     db = conn.moviesDB
+#     putRating(db, 1, 2, "good", 18932)
+#     putRating(db, 1, 2, "good enough", 18932)
+#     putRating(db, 2, 2, "fantastic", 18932)
+#     putRating(db, 1, 3, "great", 18934)
+#     cursor = getRating(db, 2, 18930, 18934)
+#     for record in cursor:
+#         print(record)
+#     # delRating(db, 1, 2)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
