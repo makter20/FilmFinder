@@ -1,5 +1,6 @@
 import movie
 import rating
+import tag
 
 def print_menu():
     menu_option={
@@ -15,7 +16,13 @@ def print_menu():
         10: 'Find Rating by movie ID and date range',
         11: 'Delete a rating',
         12: 'Put a rating',
-        13: 'Exit'
+        13: 'Enter a tag to find movie(s)',
+        14: 'Enter a movieId to find tag(s)',
+        15: 'Enter a userId to see all the tags',
+        16: 'Delete a Tag by given userId movieId and tag',
+        17: 'Write a Tag for a movie',
+        18: 'Update an Existing Tag',
+        19: 'Exit'
         }
     for key, value in menu_option.items():
         print(key,".", value)
@@ -24,6 +31,7 @@ def menu(db):
     print_menu()
     option = int(input('Enter your choice: '))
     print("Entered Option: ", option)
+    
     if option==1:
         value = int(input('Enter movie id: '))
         cursor = movie.getMoviesbyID(db, value)
@@ -98,6 +106,45 @@ def menu(db):
         printCursor(cursor)
 
     if option==13:
+        value = str(input('Enter Tag: '))
+        limitValue = int(input('Enter limit: '))
+        cursor = tag.getMoviesbyTag(db, value,limitValue)
+        printCursor(cursor)
+
+    if option==14:
+        value = int(input('Enter a movieId: '))
+        limitValue = int(input('Enter limit: '))
+        cursor = tag.getTagsbyMovie(db,value,limitValue)
+        printCursor(cursor)
+
+    if option==15:
+        value = int(input('Enter a userId: '))
+        limitValue = int(input('Enter limit: '))
+        cursor = tag.getTagsbyUserId(db,value,limitValue)
+        printCursor(cursor)
+
+    if(option==16):
+        userId = int(input('Enter a userId: '))
+        movieId = int(input('Enter a movieId: '))
+        movieTag = str(input('Enter a tag name: '))
+        tag.deleteOneTag(db,userId,movieId,movieTag)
+
+    if(option==17):
+        userId = int(input('Enter a userId: '))
+        movieId = int(input('Enter a movieId: '))
+        movieTag = str(input('Enter a tag name: '))
+        timestamp = int(input('Enter a timestamp: '))
+        cursor = tag.writeTag(db,userId,movieId,movieTag,timestamp)
+        printCursor(cursor)
+
+    if(option==18):
+        userId = int(input('Enter a userId: '))
+        movieId = int(input('Enter a movieId: '))
+        newTag = str(input('Enter a new tag'))
+        cursor = tag.updateTag(db,userId,movieId,newTag)
+        printCursor(cursor)
+
+    if option==19:
         print("Exiting menu.....")
 
 def printCursor(cursor):
