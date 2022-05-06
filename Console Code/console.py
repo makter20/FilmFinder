@@ -1,11 +1,12 @@
 import menu
 from pymongo import MongoClient
-
-MONGO_URI = "mongodb+srv://admin:rootpassword@cluster0.xl0um.mongodb.net/moviesDB?retryWrites=true&w=majority"
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 def main():
     try:
-        conn = MongoClient(MONGO_URI)
+        conn = MongoClient(os.environ.get("MONGODB_URI"))
         print("Mongo db Connected successfully!!!")
     except:
         print("Could not connect to MongoDB")
