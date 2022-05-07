@@ -13,7 +13,8 @@ def getRating(db, movieId, startTime, endTime, limitValue):
 def delRating(db, userId, movieId):
     collection = db.ratings
     query = {"userId": userId, "movieId": movieId}
-    collection.delete_one(query)
+    delRes = collection.delete_one(query)
+    print("Deleted this value", delRes)
 
 #this combines add and update
 def putRating(db, userId, movieId, rating, timestamp):
@@ -23,7 +24,8 @@ def putRating(db, userId, movieId, rating, timestamp):
     #if userId,movieId already exists, update
     if collection.count_documents(query, limit = 1) != 0:
         newValues = {"$set": {"rating": rating, "timestamp": timestamp}}
-        collection.update_one(query, newValues)
+        insertRes = collection.update_one(query, newValues)
+        print("Updated this value", insertRes)
 
     else: #insert
         newValues = {
@@ -31,7 +33,8 @@ def putRating(db, userId, movieId, rating, timestamp):
             "movieId": movieId, 
             "rating": rating, 
             "timestamp": timestamp}
-        collection.insert_one(newValues)
+        insertRes = collection.insert_one(newValues)
+        print("Inserted this value", insertRes)
     
 # testing
 # def main():
