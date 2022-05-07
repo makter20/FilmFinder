@@ -1,12 +1,9 @@
 import menu
 from pymongo import MongoClient
-from dotenv import load_dotenv
-import os
-load_dotenv()
 
 def main():
     try:
-        conn = MongoClient(os.environ.get("MONGODB_URI"))
+        conn = MongoClient("mongodb://172.31.3.57:27021")
         print("Mongo db Connected successfully!!!")
     except:
         print("Could not connect to MongoDB")

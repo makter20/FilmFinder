@@ -146,6 +146,8 @@ def menu(db):
 
     if option==19:
         print("Exiting menu.....")
+    else:
+        menu(db)
 
 def printCursor(cursor):
     print("============================================================================")
