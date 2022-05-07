@@ -15,6 +15,10 @@ def delRating(db, userId, movieId):
     query = {"userId": userId, "movieId": movieId}
     delRes = collection.delete_one(query)
     print("Deleted this value", delRes)
+    query = {"userId": userId, "movieId": movieId}
+    projection = {"_id": 0}
+    cursor = collection.find(query, projection)
+    return cursor
 
 #this combines add and update
 def putRating(db, userId, movieId, rating, timestamp):
@@ -35,6 +39,10 @@ def putRating(db, userId, movieId, rating, timestamp):
             "timestamp": timestamp}
         insertRes = collection.insert_one(newValues)
         print("Inserted this value", insertRes)
+    query = {"userId": userId, "movieId": movieId, "rating": rating, "timestamp": timestamp}
+    projection = {"_id": 0}
+    cursor = collection.find(query, projection)
+    return cursor
     
 # testing
 # def main():

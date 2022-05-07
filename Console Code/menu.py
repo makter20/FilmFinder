@@ -94,14 +94,16 @@ def menu(db):
     if option==11:
         userId = int(input('Enter a userId: '))
         movieId = int(input('Enter a movieId: '))
-        rating.delRating(db, userId, movieId)
+        cursor = rating.delRating(db, userId, movieId)
+        printCursor(cursor)
 
     if option==12:
         userId = int(input('Enter a userId: '))
         movieId = int(input('Enter a movieId: '))
         ratingIn = int(input('Enter a rating: '))
         timestamp = int(input('Enter a timestamp: '))
-        rating.putRating(db, userId, movieId, ratingIn, timestamp)
+        cursor = rating.putRating(db, userId, movieId, ratingIn, timestamp)
+        printCursor(cursor)
 
     if option==13:
         value = str(input('Enter Tag: '))
