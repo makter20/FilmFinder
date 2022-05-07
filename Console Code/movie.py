@@ -65,7 +65,7 @@ def addMovie(db, titleValue, genreValue ):
     return cursor
 
 def getMoviesbyUserId(db, value , limitValue):
-    collection = db.tags
+    collection = db.ratings
     id="_id"
     userid="userId"
     movieId='movieId'
